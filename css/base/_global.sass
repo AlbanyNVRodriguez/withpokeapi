@@ -1,0 +1,38 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+html
+    width: 100%
+    color: $white
+    background: $black_3
+    font-family: "roboto"
+    font-weight: 300
+    font-size: 62.5%
+    +flex(start, center, column nowrap)
+html::-webkit-scrollbar
+    width: 0px
+
+body
+    width: 100vw
+    padding: 2rem
+    +flex(center, center, column nowrap)
+    row-gap: 5rem
+    max-width: 1240px
+
+a
+    text-decoration: none
+    color: #eee
+.logo
+    width: 100%
+    font-size: 2rem
+    animation-name: opacity
+    animation-duration: 500ms
+    animation-direction: normal
+    animation-fill-mode: forwards
+span 
+    font-weight: bold
+    user-select: none
+    color: $green
+
+

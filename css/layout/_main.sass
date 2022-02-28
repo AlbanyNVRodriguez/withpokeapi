@@ -1,0 +1,60 @@
+.main
+    width: 100%
+    +flex(center, start, row wrap)
+    gap: 3rem
+    figure:hover picture::after,
+    figure:hover .buttons button
+        background: $green
+        color: $black_3
+
+    figure
+        padding: 1rem
+        width: 15rem
+        +flex(start, center, column nowrap)
+        row-gap: 1.5rem
+        border-radius: 2rem
+        background: $black_2
+        transition: all 200ms ease-in
+        picture
+            overflow: hidden
+            position: relative
+            width: 8rem
+            height: 8rem
+            background: $black_1
+            border-radius: 50%
+            user-select: none
+            +flex(center, center, column nowrap)
+            &::after
+                content: ""
+                width: 100%
+                height: 100%
+                position: absolute
+                top: -4rem
+                transition: all 200ms ease-in-out
+                background: $black_3
+            &>*
+                z-index: 1
+                width: 70%
+                height: 70%
+        
+        figcaption
+            width: 100%
+            +flex(start, start, column nowrap)
+            row-gap: 0.5rem
+            text-transform: capitalize
+            p
+                font-size: 1.2rem
+
+        .buttons
+            width: 100%
+            +flex(center, center, column nowrap)
+            button
+                padding: 0.5rem 2rem
+                border: none
+                border-radius: 20px
+                background: $black_1
+                color: $white
+                outline: none
+                cursor: pointer
+                user-select: none
+                transition: all 200ms ease-in-out
