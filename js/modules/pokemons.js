@@ -1,5 +1,5 @@
 // SHOW ALL POKEMONS
-async function showAllPokemons(url, gettingFetch, observeFigures){
+async function showPokemons(url, gettingFetch, observeFigures){
     document.querySelector(".main").innerHTML = `<img src="img/loader.svg">`;
     let { pokemons, next, previous } = await gettingDataFromUrl(url, gettingFetch);
     addPaginationInMain(next, previous);
@@ -13,15 +13,15 @@ async function gettingDataFromUrl(url, gettingFetch){
     let res = await gettingFetch(url);
     return {
         pokemons: await gettingThePokemonsFromTheAnswer(res.results, gettingFetch), 
-        next: res.next? `<a class="next" href="${res.next}">next</a>` : "", 
-        previous: res.previous? `<a class="prev" href="${res.previous}">previous</a>` : ""
+        next: res.next? `<a class="page-all" href="${res.next}">next</a>` : "", 
+        previous: res.previous? `<a class="page-all" href="${res.previous}">previous</a>` : ""
     }
 }
 // GETTING THE POKEMONS FROM THE ANSWER
-async function gettingThePokemonsFromTheAnswer(elements, gettingFetch){
+async function gettingThePokemonsFromTheAnswer(pokemons, gettingFetch){
     let array=[];
-    for (let i=0; i<elements.length; i++) {
-        let item = await gettingFetch(elements[i].url);
+    for (let i=0; i<pokemons.length; i++) {
+        let item = await gettingFetch(pokemons[i].url);
         array.push(item);
     }
     return array;
@@ -31,14 +31,16 @@ function addPaginationInMain(next, previous){
     document.querySelector(".pagination").innerHTML = previous+next;
 }
 // ADD POKEMONS IN MAIN
-async function addPokemonsInMain(pokemons){
+function addPokemonsInMain(pokemons){
     const $main = document.querySelector(".main"),
     $template = document.getElementById("template-figure").content,
     fragment = document.createDocumentFragment();
-
-    pokemons.forEach( pokemon => {
-        fragment.appendChild(createPokemonFigureFromTemplate(pokemon, $template));
-    });
+    if(pokemons){
+        pokemons.forEach( pokemon => {
+            let figure = createPokemonFigureFromTemplate(pokemon, $template)
+            fragment.appendChild(figure);
+        });
+    }
     document.querySelector(".main").innerHTML= "";
     $main.append(fragment);
 }
@@ -46,17 +48,22 @@ async function addPokemonsInMain(pokemons){
 function createPokemonFigureFromTemplate(pokemon, $template){
     $template.querySelector("figure").classList.add("opacity-none");
 
-    $template.querySelector("picture img").src = pokemon.sprites.other.dream_world.front_default;
+    $template.querySelector("picture img").src = pokemon.sprites.other.dream_world.front_default? 
+                                                pokemon.sprites.other.dream_world.front_default: 
+                                                pokemon.sprites.other.home.front_default?
+                                                pokemon.sprites.other.home.front_default:
+                                                pokemon.sprites.front_default?
+                                                pokemon.sprites.front_default:
+                                                "";
     $template.querySelector("picture img").alt = pokemon.name;
 
     $template.querySelectorAll("figcaption p")[0].innerHTML = `<span class="color-yellow">Name: </span> ${pokemon.name}`;
-    $template.querySelectorAll("figcaption p")[1].innerHTML = `<span class="color-yellow">Type: </span> ${pokemon.types[0].type.name}`;
+    $template.querySelectorAll("figcaption p")[1].innerHTML = `<span class="color-yellow">Type: </span> ${getPokemonTypes(pokemon)}`;
     $template.querySelectorAll("figcaption p")[2].innerHTML = `<span class="color-yellow">Experience: </span> ${pokemon.base_experience}`;
 
     $template.querySelector(".buttons button").dataset.id = pokemon.id;
 
-    let figure = document.importNode($template, true);
-    return figure;
+    return document.importNode($template, true);
 }
 // ---------------------------------------
 // SHOW POKEMON INFO IN MODAL
@@ -64,11 +71,17 @@ async function showPokemonInfoInModal(opt){
     let { id, pokemons, modal, gettingFetch } = opt,
     pokemon = pokemons.filter(res => res.id == id)[0],
     { pokemonTypes, pokemonSkills, pokemonDescription, pokemonGeneration, pokemonHabitat } = await getPokemonInfoInModal(pokemon, gettingFetch);
-
+    console.log(pokemon);
+    // console.log(pokemon.sprites.other.officialArtwork.front_default);
     let header = 
     `
     <header class="modal-header">
-        <img src="${pokemon.sprites.other.dream_world.front_default}">
+        <img src="${pokemon.sprites.other.dream_world.front_default? 
+                    pokemon.sprites.other.dream_world.front_default: 
+                    pokemon.sprites.other.home.front_default?
+                    pokemon.sprites.other.home.front_default:
+                    pokemon.sprites.front_default?
+                    pokemon.sprites.front_default:""}">
     </header>
     `,
     title = 
@@ -98,9 +111,9 @@ async function getPokemonInfoInModal(pokemon, gettingFetch){
     return { 
         pokemonTypes: getPokemonTypes(pokemon),
         pokemonSkills: getPokemonSkills(pokemon),
-        pokemonDescription: info.flavor_text_entries[0].flavor_text,
+        pokemonDescription: getPokemonFlavorText(info.flavor_text_entries),
         pokemonGeneration: info.generation.name,
-        pokemonHabitat: info.habitat.name
+        pokemonHabitat: info.habitat? info.habitat.name : "?"
     };
 }
 // GET POKEMON TYPES
@@ -119,8 +132,16 @@ function getPokemonSkills(pokemon){
     });
     return text;
 }
+// GET POKEMON FLAVOR TEXT IN ENGLISH
+function getPokemonFlavorText(flavor_text_entries){
+    let text =[];
+    text = flavor_text_entries.filter( f => f.language.name == "en");
+    return text.length==1? text.flavor_text : text[0].flavor_text;
+}
 
 export {
-    showAllPokemons,
-    showPokemonInfoInModal
+    showPokemons,
+    showPokemonInfoInModal,
+    gettingThePokemonsFromTheAnswer,
+    addPokemonsInMain
 }
