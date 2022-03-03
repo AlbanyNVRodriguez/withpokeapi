@@ -221,22 +221,22 @@ span {
   background: #1a1a1a;
 }
 
-.modal-content .modal-header {
+.modal-content .modal-content-header {
   width: 15rem;
   height: 15rem;
 }
 
-.modal-content .modal-header img {
+.modal-content .modal-content-header img {
   width: 90%;
   height: 90%;
 }
 
-.modal-content .modal-title {
+.modal-content .modal-content-title {
   text-transform: capitalize;
   font-size: 2rem;
 }
 
-.modal-content .modal-section {
+.modal-content .modal-content-section {
   width: 100%;
   height: auto;
   font-size: 1.5rem;
@@ -346,7 +346,7 @@ span {
   transition: all 200ms ease-in;
 }
 
-.navbar .filters a.active, .navbar .filters a:hover {
+.navbar .filters a.active {
   background: #29e798;
   color: #141414;
   font-weight: bold;
