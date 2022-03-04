@@ -1,47 +1,76 @@
 .main
     width: 100%
     +flex(center, start, row wrap)
-    gap: 3rem
+    gap: 4rem 3rem
+    figure:hover picture::before
+        color: $black_3
     figure:hover picture::after,
     figure:hover .buttons button
-        background: $green
+        background: $primary_color
         color: $black_3
-
+    figure:hover figcaption::after
+        opacity: 0.3
     figure
-        padding: 1rem
+        position: relative
         width: 15rem
         +flex(start, center, column nowrap)
         row-gap: 1.5rem
-        border-radius: 2rem
-        background: $black_2
         transition: all 200ms ease-in
         picture
+            padding-bottom: 0.5rem
             overflow: hidden
             position: relative
             width: 8rem
             height: 8rem
             background: $black_1
+            box-shadow: -1px -1px 3px $black_1, -1px 0px 3px $black_1, 0px -1px 3px $black_1, 1px 1px 3px $black_1, 0px 1px 3px $black_1, 1px 0px 3px $black_1
             border-radius: 50%
             user-select: none
-            +flex(center, center, column nowrap)
+            +flex(end, center, column nowrap)
+            &::before
+                position: absolute
+                top: 0.3rem
+                content: attr(data-id)
+                z-index: 1
+                font-size: 2rem
+                font-weight: bold
+                color: transparent
+                transition: all 200ms ease-in-out
             &::after
                 content: ""
                 width: 100%
                 height: 100%
                 position: absolute
                 top: -4rem
-                transition: all 200ms ease-in-out
                 background: $black_3
+                color: red
+                transition: all 200ms ease-in-out
             &>*
                 z-index: 1
-                width: 70%
-                height: 70%
-        
+                width: 5.5rem
+                height: 5.5rem
+        figcaption::after
+            opacity: 0
+            content: ""
+            position: absolute
+            width: 4rem
+            height: 1rem
+            border-radius: 50%
+            top: -1.5rem
+            left: calc( 50% - 2rem )
+            background: black
+            transition: all 200ms ease-in
         figcaption
+            box-shadow: -1px -1px 3px $black_3 inset, -1px 0px 3px $black_3 inset, 0px -1px 3px $black_3 inset, 1px 1px 3px $black_3 inset, 0px 1px 3px $black_3 inset, 1px 0px 3px $black_3 inset
+            position: relative
+            margin-top: 1rem
+            border-radius: 2rem
+            padding: 1rem
             width: 100%
             +flex(start, start, column nowrap)
             row-gap: 0.5rem
             text-transform: capitalize
+            background: $black_2
             p
                 font-size: 1.2rem
 
@@ -57,4 +86,5 @@
                 outline: none
                 cursor: pointer
                 user-select: none
+                box-shadow: -1px -1px 3px $black_1, -1px 0px 3px $black_1, 0px -1px 3px $black_1, 1px 1px 3px $black_1, 0px 1px 3px $black_1, 1px 0px 3px $black_1
                 transition: all 200ms ease-in-out

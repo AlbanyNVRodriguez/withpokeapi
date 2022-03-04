@@ -24,17 +24,19 @@
 </head>
 <body>
     <div class="modal hidden">
+        <button class="modal-select modal-select-prev"><</button>
         <section class="modal-content">
             <header class="modal-content-header"></header>
             <h2 class="modal-content-title"></h2>
             <section class="modal-content-section"></section>
         </section>
+        <button class="modal-select modal-select-next">></button>
     </div>
     <div class="logo">
-        <p>With <span class="color-yellow">PokeApi</span></p>
+        <p>With<a href="https://pokeapi.co" class="color-primary">PokeApi</a></p>
     </div>
     <header class="header">
-        consuming one of the most famous APIs in the development world.
+        Consuming one of the most famous APIs in the development world.
     </header>
     <nav class="navbar">
         <input type="search" name="search" id="search" placeholder="search...">
@@ -42,19 +44,13 @@
             <a class="filters-all active" href="https://pokeapi.co/api/v2/pokemon?offset=0&limit=10">All</a>
         </div>
     </nav>
-    <main class="main">
-        <img src="img/loader.svg" alt="loader">
-    </main>
+    <main class="main"></main>
     <template id="template-figure">
         <figure>
             <picture>
                 <img src="" alt="">
             </picture>
-            <figcaption>
-                <p><span>Name: </span>Fulano</p>
-                <p><span>Experience: </span>50</p>
-                <p><span>Type: </span>Fairy</p>
-            </figcaption>
+            <figcaption></figcaption>
             <div class="buttons">
                 <button>See More</button>
             </div>
@@ -62,7 +58,7 @@
     </template>
     <div class="pagination"></div>
     <footer class="footer">
-        All Rights Reserved | <a href="#" class="color-green">Albany Vergel</a> - <a href="#" class="color-green">Github</a>
+        All Rights Reserved | <a href="#" class="color-primary">Albany Vergel</a> - <a href="#" class="color-primary">Github</a>
     </footer>
     <script src="js/main.js" type="module"></script>
 </body>

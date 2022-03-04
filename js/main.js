@@ -1,56 +1,82 @@
 // POKEMONS
-import { createPokemonsFiguresFromTemplate, gettingThePokemonsFromTheAnswer, gettingPokemonInformation } from "./modules/pokemons.js";
+import { createPokemonsFiguresFromTemplate, gettingPokemonInformation, gettingPokemons } from "./modules/pokemons.js";
 // MODAL
-import { openModal, closeModal, showPokemonInfoInModal } from "./modules/modal.js";
+import { openModal, closeModal, renderPokemonInfoInModal, addSelectInModal } from "./modules/modal.js";
 
 // DOM CONTENT LOADED
 document.addEventListener("DOMContentLoaded", async function(){
     let $main = document.querySelector(".main");
     $main.innerHTML = `<img src="img/loader.svg">`;
     addFiltersInNavbar("https://pokeapi.co/api/v2/type/");
-    let pokemons = await gettingPokemons("https://pokeapi.co/api/v2/pokemon?offset=0&limit=10"),
-    paginations;
+    let pokemons = await gettingPokemons("https://pokeapi.co/api/v2/pokemon?offset=0&limit=10", gettingFetch);
+    let paginations;
     addFiguresInMain(pokemons);
     observeFigures();
+
+    // SEARCH
+    document.querySelector(".navbar #search").addEventListener("search", async e=>{
+        e.preventDefault();
+        addMessageInHeader(0, 0, false);
+        document.querySelector(".pagination").innerHTML="";
+        removeClassActive(document.querySelector(".filters-filter"))
+        if(e.target.value != "") pokemons = await gettingFetch(`https://pokeapi.co/api/v2/pokemon/${e.target.value}`);
+        addFiguresInMain(pokemons);
+        observeFigures();
+        if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No se encontraron resultados de "${e.target.value}"</h2>`;
+        e.target.value="";
+    });
+
     // EVENT CLICK
     document.addEventListener("click", async e=>{
         // FILTERS
         if(e.target.matches(".filters a")){
             e.preventDefault();
-            changeClassActive(e.target);
+            removeClassActive(e.target);
+            addClassActive(e.target);
             $main.innerHTML = `<img src="img/loader.svg">`;
+            document.querySelector(".pagination").innerHTML = ``;
             // filters-all
             if(e.target.matches(".filters a.filters-all")){
-                pokemons = await gettingPokemons(e.target.href);
+                pokemons = await gettingPokemons(e.target.href, gettingFetch);
+                addMessageInHeader(0, 0, false);
                 addFiguresInMain(pokemons);
             }
             // filters-filter
             if(e.target.matches(".filters a.filters-filter")){
-                paginations = await gettingPokemons(e.target.href);
+                paginations = await gettingPokemons(e.target.href, gettingFetch);
                 pokemons = paginations[0];
+                addMessageInHeader(paginations, e.target.textContent, true);
                 addFiguresInMain(pokemons);
                 if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No se encontraton Pokemons de tipo "${e.target.textContent}"</h2>`;
             }
             observeFigures();
         }
+
         // PAGINATIONS
         if(e.target.matches(`.pagination a`)){
             e.preventDefault();
-            changeClassActive(e.target);
+            removeClassActive(e.target);
+            addClassActive(e.target);
             $main.innerHTML = `<img src="img/loader.svg">`;
-            pokemons = e.target.matches(`.pagination a.page-all`)? await gettingPokemons(e.target.href) : paginations[e.target.dataset.page];
+            pokemons = e.target.matches(`.pagination a.page-all`)? await gettingPokemons(e.target.href, gettingFetch) : paginations[e.target.dataset.page];
             addFiguresInMain(pokemons);
             observeFigures();
         }
+
         // MODAL
-        // Open modal
         if(e.target.matches(`figure .buttons button`)){
             openModal();
-            showPokemonInfoInModal({id: e.target.dataset.id, pokemons, gettingPokemonInformation, gettingFetch});
+            renderPokemonInfoInModal({id: e.target.dataset.id, pokemons, gettingPokemonInformation, gettingFetch});
+            addSelectInModal(e.target.dataset.id, pokemons);
         } 
-        // close modal
         if(e.target.matches(".modal")) closeModal();
+        if(e.target.matches(".modal .modal-select")){
+            e.preventDefault();
+            renderPokemonInfoInModal({id: pokemons[e.target.dataset.position].id, pokemons, gettingPokemonInformation, gettingFetch});
+            addSelectInModal(pokemons[e.target.dataset.position].id, pokemons);
+        }
     });
+    
 });
 // -------------------------------------------------
 // INTERSECTION OBSERVER
@@ -76,44 +102,6 @@ async function gettingFetch(url){
         document.querySelector(".main").textContent = "error: "+error.status+" - "+error.statusText;
     }
 }
-// GETTING POKEMONS
-async function gettingPokemons(url){
-    let res = await gettingFetch(url);
-    let pokemons = await gettingThePokemonsFromTheAnswer(extractingPokemonsFromTheResponse(res), gettingFetch);
-    pokemons =  creatingPagingOfTheResponse(res, pokemons);
-    return pokemons;
-}
-// EXTRACTING POKEMONS FROM THE RESPONSE
-function extractingPokemonsFromTheResponse(res){
-    if(res.results) return res.results;
-    if(res.pokemon){
-        let array= [];
-        for(let i=0; i<res.pokemon.length ; i++){
-            array.push(res.pokemon[i].pokemon);
-        }
-        return array;
-    }
-}
-// CREATING PAGING OF THE RESPONSE
-function creatingPagingOfTheResponse(res, pokemons){
-    let $pagination = document.querySelector(".pagination");
-    if(res.results){
-        $pagination.innerHTML = res.previous? `<a class="page-all" href="${res.previous}">previous</a>` : "";
-        $pagination.innerHTML += res.next? `<a class="page-all" href="${res.next}">next</a>` : "";
-    }
-    if(res.pokemon){
-        $pagination.innerHTML = "";
-        let total_paginations = Math.round(pokemons.length / 10),
-        paginations = [], last= 0;
-        for(let i = 1; i<=total_paginations; i++){
-            paginations.push(pokemons.slice(last,10*i));
-            last += 10;
-            $pagination.innerHTML += `<a href="#" class="page-filter" data-page="${i-1}">${i}</a>`;
-        }
-        pokemons = paginations;
-    }
-    return pokemons;
-}
 // --------------------------------------------------
 // ADD FIGURES IN MAIN
 function addFiguresInMain(pokemons){
@@ -122,18 +110,32 @@ function addFiguresInMain(pokemons){
     $main.innerHTML= "";
     $main.append(figures);
 }
-// FILTER
+// ADD MESSAGE IN HEADER
+function addMessageInHeader(paginations, type, filter){
+    let header = document.querySelector(".header");
+    let count = 0;
+    if(filter){
+        paginations.forEach(p => count += p.length);
+        header.innerHTML = `Total pokemons of type <br>"${type}"<br><span class="color-primary">${count}</span>`;
+    }else{
+        header.innerHTML = `Consuming one of the most famous APIs in the development world.`;
+    }
+}
+// ADD FILTERS IN NAVBAR
 async function addFiltersInNavbar(url){
     let $filters = document.querySelector(".filters");
     let pokemonsTypes = await  gettingFetch(url);
     for(let i=0; i<pokemonsTypes.results.length; i++){
-        $filters.innerHTML += `<a href="${url+pokemonsTypes.results[i].name}" class="filters-filter" >${pokemonsTypes.results[i].name}</a>`;
+        let nameCapitalize = pokemonsTypes.results[i].name[0].toUpperCase() + pokemonsTypes.results[i].name.slice(1,pokemonsTypes.results[i].name.length);
+        $filters.innerHTML += `<a href="${url+pokemonsTypes.results[i].name}" class="filters-filter" >${nameCapitalize}</a>`;
     }
 }
-// CHANGE CLASS ACTIVE / REMOVE AND ADD CLASS
-function changeClassActive(element){
+// REMOVE CLASS ACTIVE
+function removeClassActive(element){
     let elements = element.parentElement.querySelectorAll(element.localName);
     elements.forEach(e => e.classList.remove("active"));
+}
+// ADD CLASS ACTIVE
+function addClassActive(element){
     element.classList.add("active");
 }
-
