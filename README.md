@@ -1,4 +1,4 @@
-![image](/img/image.png?raw=true)
+![image](./img/image.png?raw=true)
 
 # WithPokeapi
 
