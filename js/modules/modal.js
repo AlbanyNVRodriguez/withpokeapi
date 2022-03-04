@@ -12,9 +12,9 @@ function openModal(){
     modal.querySelector(".modal-content").classList.add("animation");
     modalContentHeader.innerHTML = ``;
     modalContentTitle.innerHTML = ``;
-    modalContentSection.innerHTML = `<img src="img/loader.svg" alt="loader">`;
-    modalContentSection.style.alignItems = "center";
+    modalContentSection.innerHTML = `<img src="img/loader.svg" alt="loader" style="width: 50%;height:50%">`;
     modalContentSection.style.justifyContent = "center";
+    modalContentSection.style.alignItems = "center";
 }
 // CLOSE MODAL
 function closeModal(){

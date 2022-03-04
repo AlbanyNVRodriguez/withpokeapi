@@ -1,21 +1,26 @@
 .modal
-    opacity: 1
     position: fixed
     top: 0
     width: 100vw
     height: 100vh
     z-index: 5
-    background: rgba($black_3, .6)
+    background: rgba($black_3, .9)
     +flex(center, center, row nowrap)
     column-gap: 1rem
-    transition: all 200ms ease
+    transition: all 300ms ease
 .modal-select
     width: 4rem
     height: 4rem
     background: $black_2
     +flex(center, center, row nowrap)
-    transition: all 200ms ease-in
+    color: $white
+    border: none
+    outline: none
+    box-shadow: 2px 2px 5px rgba(black, .5), -2px -2px 5px rgba(black, .5), 2px 2px 5px rgba(black, .5), 2px -2px 5px rgba(black, .5)
+    cursor: pointer
+    user-select: none
     &:hover
+        color: $primary_color
         background: $black_1
 .modal-select-prev
     border-radius: 50% 0 0 50%
@@ -24,45 +29,40 @@
 .modal-content::after
     content: ""
     position: absolute
-    bottom: 0
-    left: -6vw
+    top: -50%
+    right: 75%
     width: 100%
-    height: 200%
+    height: 200vh
     background: rgba($black_3, .8)
     z-index: -1
-    transform: rotateZ(31deg) 
-.modal-content::-webkit-scrollbar
-    width: 1px
-.modal-content::-webkit-scrollbar-thumb
-    background: $primary_color
-    border-radius: 10px
+    transform: rotateZ(33deg) 
 .modal-content
     overflow: hidden
-    overflow-y: scroll
     position: relative
     padding: 2rem
     width: 30rem
-    height: auto
+    height: 45rem
     max-height: 50rem
-    +flex(start, center, column nowrap)
-    row-gap: 3rem
+    +flex(space-evenly, center, column nowrap)
+    row-gap: 1.5rem
     box-shadow: 2px 2px 5px rgba(black, .5), -2px -2px 5px rgba(black, .5), 2px 2px 5px rgba(black, .5), 2px -2px 5px rgba(black, .5)
     background: $black_2
     .modal-content-header
-        width: 15rem
-        height: 15rem
+        width: 10rem
+        height: 10rem
         img
             width: 90%
             height: 90%
     .modal-content-title
+        text-align: center
         text-transform: capitalize
-        font-size: 2rem
+        font-size: 1.5rem
     .modal-content-section
         width: 100%
         height: auto
-        font-size: 1.5rem
+        font-size: 1.3rem
         +flex(start, start, column nowrap)
-        row-gap: 1rem
+        row-gap: 0.5rem
 
 
 

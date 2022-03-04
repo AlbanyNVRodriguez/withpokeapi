@@ -16,8 +16,9 @@ document.addEventListener("DOMContentLoaded", async function(){
     // SEARCH
     document.querySelector(".navbar #search").addEventListener("search", async e=>{
         e.preventDefault();
-        addMessageInHeader(0, 0, false);
+        $main.innerHTML = `<img src="img/loader.svg">`;
         document.querySelector(".pagination").innerHTML="";
+        addMessageInHeader(0, 0, false);
         removeClassActive(document.querySelector(".filters-filter"))
         if(e.target.value != "") pokemons = await gettingFetch(`https://pokeapi.co/api/v2/pokemon/${e.target.value}`);
         addFiguresInMain(pokemons);
@@ -31,9 +32,9 @@ document.addEventListener("DOMContentLoaded", async function(){
         // FILTERS
         if(e.target.matches(".filters a")){
             e.preventDefault();
+            $main.innerHTML = `<img src="img/loader.svg">`;
             removeClassActive(e.target);
             addClassActive(e.target);
-            $main.innerHTML = `<img src="img/loader.svg">`;
             document.querySelector(".pagination").innerHTML = ``;
             // filters-all
             if(e.target.matches(".filters a.filters-all")){
@@ -55,9 +56,9 @@ document.addEventListener("DOMContentLoaded", async function(){
         // PAGINATIONS
         if(e.target.matches(`.pagination a`)){
             e.preventDefault();
+            $main.innerHTML = `<img src="img/loader.svg">`;
             removeClassActive(e.target);
             addClassActive(e.target);
-            $main.innerHTML = `<img src="img/loader.svg">`;
             pokemons = e.target.matches(`.pagination a.page-all`)? await gettingPokemons(e.target.href, gettingFetch) : paginations[e.target.dataset.page];
             addFiguresInMain(pokemons);
             observeFigures();
