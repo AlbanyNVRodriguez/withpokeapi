@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function(){
         if(e.target.value != "") pokemons = await gettingFetch(`https://pokeapi.co/api/v2/pokemon/${e.target.value}`);
         addFiguresInMain(pokemons);
         observeFigures();
-        if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No se encontraron resultados de "${e.target.value}"</h2>`;
+        if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No results found for "${e.target.value}"</h2>`;
         e.target.value="";
     });
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async function(){
                 pokemons = paginations[0];
                 addMessageInHeader(paginations, e.target.textContent, true);
                 addFiguresInMain(pokemons);
-                if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No se encontraton Pokemons de tipo "${e.target.textContent}"</h2>`;
+                if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No found pokemons type "${e.target.textContent}"</h2>`;
             }
             observeFigures();
         }
