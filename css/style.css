@@ -446,9 +446,9 @@ span {
   width: 8rem;
   height: 8rem;
   background: #202020;
+  border-radius: 50%;
   -webkit-box-shadow: -1px -1px 3px #202020, -1px 0px 3px #202020, 0px -1px 3px #202020, 1px 1px 3px #202020, 0px 1px 3px #202020, 1px 0px 3px #202020;
           box-shadow: -1px -1px 3px #202020, -1px 0px 3px #202020, 0px -1px 3px #202020, 1px 1px 3px #202020, 0px 1px 3px #202020, 1px 0px 3px #202020;
-  border-radius: 50%;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -513,8 +513,8 @@ span {
 }
 
 .main figure figcaption {
-  -webkit-box-shadow: -1px -1px 3px #141414 inset, -1px 0px 3px #141414 inset, 0px -1px 3px #141414 inset, 1px 1px 3px #141414 inset, 0px 1px 3px #141414 inset, 1px 0px 3px #141414 inset;
-          box-shadow: -1px -1px 3px #141414 inset, -1px 0px 3px #141414 inset, 0px -1px 3px #141414 inset, 1px 1px 3px #141414 inset, 0px 1px 3px #141414 inset, 1px 0px 3px #141414 inset;
+  -webkit-box-shadow: -1px -1px 3px #202020, -1px 0px 3px #202020, 0px -1px 3px #202020, 1px 1px 3px #202020, 0px 1px 3px #202020, 1px 0px 3px #202020;
+          box-shadow: -1px -1px 3px #202020, -1px 0px 3px #202020, 0px -1px 3px #202020, 1px 1px 3px #202020, 0px 1px 3px #202020, 1px 0px 3px #202020;
   position: relative;
   margin-top: 1rem;
   border-radius: 2rem;

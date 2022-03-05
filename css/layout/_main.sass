@@ -23,8 +23,8 @@
             width: 8rem
             height: 8rem
             background: $black_1
-            box-shadow: -1px -1px 3px $black_1, -1px 0px 3px $black_1, 0px -1px 3px $black_1, 1px 1px 3px $black_1, 0px 1px 3px $black_1, 1px 0px 3px $black_1
             border-radius: 50%
+            +shadowFigure
             user-select: none
             +flex(end, center, column nowrap)
             &::before
@@ -61,7 +61,7 @@
             background: black
             transition: all 200ms ease-in
         figcaption
-            box-shadow: -1px -1px 3px $black_3 inset, -1px 0px 3px $black_3 inset, 0px -1px 3px $black_3 inset, 1px 1px 3px $black_3 inset, 0px 1px 3px $black_3 inset, 1px 0px 3px $black_3 inset
+            +shadowFigure
             position: relative
             margin-top: 1rem
             border-radius: 2rem
@@ -86,5 +86,5 @@
                 outline: none
                 cursor: pointer
                 user-select: none
-                box-shadow: -1px -1px 3px $black_1, -1px 0px 3px $black_1, 0px -1px 3px $black_1, 1px 1px 3px $black_1, 0px 1px 3px $black_1, 1px 0px 3px $black_1
+                +shadowFigure
                 transition: all 200ms ease-in-out
