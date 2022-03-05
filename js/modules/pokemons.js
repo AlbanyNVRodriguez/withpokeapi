@@ -14,14 +14,15 @@ function createFigure(pokemon, $template, fragment){
     let textFigcaption = `
     <p><span class="color-primary">Name: </span> ${getPokemonName(pokemon)}</p>
     <p><span class="color-primary">Experience: </span> ${getPokemonBaseExperience(pokemon)}</p>
-    <p><span class="color-primary">Type: </span> ${getPokemonTypes(pokemon)}</p>
-    `;
+    <p><span class="color-primary">Type: </span> ${getPokemonTypes(pokemon)}</p>`;
+
     $template.querySelector("figure").classList.add("opacity-none");
     $template.querySelector("picture").dataset.id = getPokemonId(pokemon);
     $template.querySelector("picture img").src = getPokemonImg(pokemon);
     $template.querySelector("picture img").alt = getPokemonName(pokemon);
     $template.querySelector("figcaption").innerHTML = textFigcaption;
     $template.querySelector(".buttons button").dataset.id = getPokemonId(pokemon);
+
     let copy = document.importNode($template, true);
     fragment.appendChild(copy);
 }
@@ -62,11 +63,11 @@ function creatingPagingOfTheResponse(res, pokemons){
     }
     if(res.pokemon){
         $pagination.innerHTML = "";
-        let total_paginations = Math.round(pokemons.length / 10),
+        let total_paginations = Math.round(pokemons.length / 20),
         paginations = [], last= 0;
         for(let i = 1; i<=total_paginations; i++){
-            paginations.push(pokemons.slice(last,10*i));
-            last += 10;
+            paginations.push(pokemons.slice(last,20*i));
+            last += 20;
             $pagination.innerHTML +=i==1? `<a href="#" class="page-filter active" data-page="${i-1}">${i}</a>` : `<a href="#" class="page-filter" data-page="${i-1}">${i}</a>`;
         }
         pokemons = paginations;

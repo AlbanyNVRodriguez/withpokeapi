@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function(){
     let $main = document.querySelector(".main");
     $main.innerHTML = `<img src="img/loader.svg">`;
     addFiltersInNavbar("https://pokeapi.co/api/v2/type/");
-    let pokemons = await gettingPokemons("https://pokeapi.co/api/v2/pokemon?offset=0&limit=10", gettingFetch);
+    let pokemons = await gettingPokemons("https://pokeapi.co/api/v2/pokemon?offset=0&limit=20", gettingFetch);
     let paginations;
     addFiguresInMain(pokemons);
     observeFigures();
