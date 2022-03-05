@@ -97,10 +97,13 @@ function observeFigures(){
 async function gettingFetch(url){
     try{
         let res = await fetch(url);
-        if(!res.ok) throw { status: res.status, statusText: res.statusText }
+        if(!res.ok) throw { status: res.status, statusText: res.statusText, res }
         return await res.json();
     }catch(error){
-        document.querySelector(".main").textContent = "error: "+error.status+" - "+error.statusText;
+        console.log(error)
+        if(!window.navigator.onLine){
+            document.querySelector(".main").innerHTML = `<h2 style="text-align:center"><span class="color-primary">No internet connection</span><br>Please, check your internet connection</h2>`;
+        }
     }
 }
 // --------------------------------------------------

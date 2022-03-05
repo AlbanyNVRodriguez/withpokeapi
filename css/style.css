@@ -401,7 +401,7 @@ span {
   -webkit-box-direction: normal;
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
-  gap: 4rem 3rem;
+  gap: 5rem 3rem;
 }
 
 .main figure:hover picture::before {
