@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function(){
         document.querySelector(".pagination").innerHTML="";
         addMessageInHeader(0, 0, false);
         removeClassActive(document.querySelector(".filters-filter"))
-        if(e.target.value != "") pokemons = await gettingFetch(`https://pokeapi.co/api/v2/pokemon/${e.target.value}`);
+        if(e.target.value != "") pokemons = await gettingFetch(`https://pokeapi.co/api/v2/pokemon/${e.target.value.toLowerCase()}`);
         addFiguresInMain(pokemons);
         observeFigures();
         if(typeof pokemons == "undefined" ) $main.innerHTML = `<h2>No results found for "${e.target.value}"</h2>`;
